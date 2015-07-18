@@ -1,0 +1,119 @@
+MacPorts or Homebrew
+--------------------
+
+If you have Homebrew installed (http://brew.sh) it will be used by the script.
+If Homebrew is not installed and MacPorts (http://www.macports.org) is
+installed, the script will use MacPorts.  If neither is installed, it will
+install Homebrew using the Apple-provided ruby command and then use Homebrew
+to finish the process.  Homebrew will install compiled tools and libraries
+which can save some time.
+
+XCode command line tools
+------------------------
+
+The ebe install script will try to install the XCode command line tools.
+If this has not been done, the script will exit and you will need to rerun
+it after the tools are installed.
+
+You should see an icon on the Dock which looks like a blue globe with a
+pair of arrows indicating clockwise rotation while the tools are being
+installed.  You may need to click on this icon to click OK when it says
+the installation is done.
+
+Certificate for codesigning gdb
+-------------------------------
+
+In order to use gdb to start and control a process, it is necessary to
+create a codesigning certificate and then use the codesigning tool to
+tell OS X you trust gdb.  Following that it is necessary to restart the
+taskgated process.  It should be possible for someone to improve the
+installation script to create the certificate, but so far I had failed to
+make the various openssl commands work properly.
+
+The simplest way to install ebe on OS X is to use the following commands
+(adapted from http://wiki.freepascal.org):
+
+1.  Open application "Keychain Access"
+    You can find it in /Applications/Utilities.
+
+2.  Use menu option
+    "Keychain Access->Certificate Assistant->Create a Certificate"
+
+3.  Set these values
+        Name             = gdb-cert
+        Identity Type    = Self Signed Root
+        Certificate Type = Code Signing
+    Select "Let me override defaults"
+    Click "Continue"
+
+4.  Next you will see a dialog with a "Validity Period (day)" field.
+    You might want to change this from 365 to 3650.  Then click
+    "Continue".
+
+5.  Just click "Continue" on the "Certificate Information" dialog.
+    Having "US" selected is sufficient.
+
+6.  Again click "Continue" on the "Key Pair Information" dialog.
+    Having 2048 bit RSA is fine.
+
+7.  Click "Continue" on the "Key Usage Extension" dialog.  It should
+    have check marks beside
+        "Include Key Usage Extension"
+        "This extension is critical"
+        "Signature"
+
+8.  Click "Continue" on the "Extended Key Usage Extension" dialog.
+    It should have checks by
+        "Include Extended Key Usage Extension:
+        "This extension is critical"
+        "Code Signing"
+
+9.  Click "Continue" on the "Basic Constraints Extension" dialog.
+    It should have nothing checked.
+
+10. Click "Continue" in the "Subject Alternate Name Extension dialog.
+    It should have a check by
+        "Include Subject Alternate Name Extension"
+
+11. Finally on the "Specify a Location for the Certificate" dialog
+    change the "Keychain" choice to "System".  Leaving it as "login"
+    might work.
+    Then click "Create".
+    After entering your password in the popup dialog, the certificate will
+    be created.
+
+12. Click on the "System" keychain in the upper left.
+
+13. Right click on the gdb-cert certificate icon and select
+    "Get Info".
+
+14. Click on the triangle to the left of "Trust" to expand the Trust
+    settings.
+
+15. Change the "When using this certificate" option to "Always Trust".
+
+16. Close the certificate info window and enter your password in the
+    popup dialog.  Click "Update settings".
+
+You can quit the Keychain Access program.
+
+You should then run "sh ./install_ebe.sh" in a terminal window.
+
+Codesigning manually
+--------------------
+
+If you run the ebe installation script without creating "gdb-cert"
+first, it will need to be done later and you will also need to do a
+couple more commands.
+
+If you used brew
+
+    codesign -s gdb-cert /usr/local/bin/gdb
+
+If you used MacPorts
+
+    codesign -s gdb-cert /opt/local/bin/ggdb
+
+Then you need to restart the taskgated process
+
+    sudo killall -9 taskgated

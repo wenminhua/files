@@ -1,0 +1,42 @@
+EBE Source Code
+===============
+The ebe source code is packaged as a gzipped tar file (.tgz).
+Extract it using 
+
+        tar xvzf ebe_src_2.5.8.tgz
+
+This will unpack the files into a directory named "ebe".
+
+Building the program - Linux & OS X
+===================================
+
+You will need g++, make, and the Qt development package.
+
+There is a script named "rebuild" which will use qmake to
+build a Makefile from "ebe.pro", run the script "qrc" to
+build a resource file ("ebe_qrc.cpp"), use Qt Linguist's
+lrelease program to build language packs, and use make to
+compile the program.
+
+After it is built you can copy ebe and all the .qm files
+to a directory in the PATH.
+
+Building the program - Windows
+==============================
+
+You will need the Visual C++ compiler and the Qt development
+package.
+
+You may use cygwin the untar the source.
+
+Then using the Visual Studio command shell:
+
+        cd ebe
+        qmake
+        make
+
+This will compile ebe in the release directory.  You will
+need to copy release\ebe.exe and the language pack files
+(*.qm) into a directory in the PATH.
+
+Then you can make a shortcut to the ebe program.

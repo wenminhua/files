@@ -1,0 +1,38 @@
+The first example in my Linux textbook uses an int instruction to make a 32
+bit system call.  This is entirely wrong for Windows.  I haven't tried it and
+I expect the program to just bomb.  A little later I discuss using the syscall
+instruction to generate a 64 bit system call.  Again there is no logical
+reason to expect this code to work either.
+
+So use the C language functions like read, write, printf, scanf and things
+will be somewhat portable.
+
+Function call differences
+=========================
+Linux uses registers rdi, rsi, rdx, rcx, r8 and r9 as the first 6 integer
+parameters to a function and uses xmm0-xmm7 for the first 8 floating pointer
+parameters.
+
+Windows allows up to 4 register parameters.  The first is either in rcx or
+xmm0, the second is in either rdx or xmm1, the third is in either r8 or xmm2
+and the fourth is in either r9 or xmm3.
+
+So the logic is different.  Linux functions could have 14 register parameters
+and Windows functions are limited to 4.
+
+Futhermore the Windows specification says that the stack needs to have 4
+quadwords available at the top the stack at the point of making a call
+instruction.  This space can be used to save copies of the register parameters
+if other function calls are required.
+
+Another difference is in the registers which must be preserved by a function.
+A Linux function must preserve (or restore) rbx, rbp, r12, r13, r14, and r15.
+A Windows function must preserve (or restore) rbx, rbp, rdi, rsi, r12, r13,
+r14 and r15.  So you have to worry about saving rdi and rsi with Windows.
+
+In this directory tree I will place Windows assembly code which I have tested,
+though it is entirely possible that I have violated one or more of the
+function call requirements.  I will be reviewing this over time and I hope to
+become more confident, but I have seen myself make so many mistakes you just
+wouldn't believe it.  So, if something fails, it might be my fault.  If you
+email me I can generally figure out what goes wrong.

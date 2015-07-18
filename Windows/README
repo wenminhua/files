@@ -1,0 +1,53 @@
+NOTE:
+=====
+You need to download and run 2 exe's to install ebe.
+
+Installers
+==========
+There are 2 required installation files: one for the ebe program and one for
+the tools required by ebe.  Ebe itself is a 32 bit program and can run on
+either 32 or 64 bit Windows systems.  There are 2 versions of the tools: one
+for 32 bit systems and another for 64 bit systems.
+
+The ebe installation file has a 3 part version number and the name looks like
+
+    ebe-3.0.1-setup.exe
+
+The ebe tools will change very infrequently and the current version is version
+2 which results in 2 files
+
+    ebe-tools-32-2.1-setup.exe
+    ebe-tools-64-2.1-setup.exe
+
+So download the proper ebe-tools file and run that installation program.
+Then run the ebe setup program.  You might later find a newer version of the
+ebe setup program which you could install to update ebe.  Maybe every year or
+two there might be a new version of the tools, but this is usually not very
+important.  Basically this includes compilers which will work well for several
+years.
+
+
+Older versions
+==============
+Here are the Windows installers for the ebe IDE.  There are 2 installers: one for 32 bit Windows and one for 64 bit Windows.  Each installer installs the gcc compiler collection from the mingw sourceforge site.  Ebe itself is a 32 bit application which has been compiled with the Microsoft command line C++ compiler.
+
+Generally it would be a better choice to select the version with the largest version number.  There are usually new features and problems fixed with newer versions.  For example version 2.0.10 includes the first version of the toybox and it is probably more reliable than  2.0.09.  Version 2.0.09 has better support for 32 bit compilations than 2.0.08.
+
+ebe32-2.7.??-setup.exe:  includes 32 bit compilers:  gcc, g++, gfortran
+
+ebe64-2.7.??-setup.exe:  includes 64 bit compilers:  gcc, g++, gfortran
+
+ebe-2.7.??-update.exe: includes just the latest ebe.  This will update
+installs from 2.0.08 forward.
+
+Both installers should run fine under 64 bit Windows.  Only the 32 bit installer will work properly under 32 bit Windows.  It would install and ebe would start, but the compilers would not run.
+
+This code has been tested under Windows 7 and 8.  It is unknown whether there are issues with other versions of Windows.
+
+There are still many changes planned for ebe.  In particular the library in the program (bottom icon on the C++ code toolbar) will be growing.  Check back frequently for updates.  The gcc portions are not changing, so using the ebe-2.1.??-update.exe should be a quicker way to udate your software.
+
+Problems
+========
+The ebe configuration file ".ebe.ini" can be a source of problems.  For example early versions of the config file did not have quotes around file names while later ones do.  This can mean a failure with files/directories with spaces in the name.  So it should be an early step in coping with a problem to remove ".ebe.ini" from the directory you were using.
+
+Repeated installs are leaving the program's directory in the Path variable multiple times.  The update exes are modified to not change the Path.

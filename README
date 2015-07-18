@@ -1,0 +1,19 @@
+For most systems there is an install script which makes it simpler to install
+ebe.  This script works well with the systems which incorporate a builtin
+package manager.  Unfortunately OS X requires installing a couple of things
+before running the script.
+
+For Windows, there is an installation program which make it easy to install
+ebe and a second installation program to instlla all required tools.
+
+Installer
+=========
+This directory contains "install_ebe.sh" and the README file there explains
+how to use it.
+
+Windows
+=======
+There are binary installers built with Inno Setup in the Windows directory.
+
+Windows users can also use git to download the source.  I have been using
+Cygwin to provide git and the vi editor.  If interested, I have been compiling using the free Visual Studio 2010 C++ command line compiler with the Qt release for Visual Studio.  I also have separately installed a mingw verison of gcc, gfortran, gdb and the binary utilities along with yasm and astyle.  I have not yet documented where to find all the pieces.

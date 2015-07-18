@@ -1,0 +1,53 @@
+Help Wanted
+===========
+Ebe now supports translations to multiple languages and people are needed
+to repair bad translations and translate more languages.
+
+Work needs to be done on the library and on documentation.
+
+It would be good to have a Windows developer and an OS X developer to assist
+with those platforms.
+
+It would be great to have someone with package management skills for Ubuntu
+and Fedora to take over providing packages for these popular distros.
+
+Good ideas are needed to help improve ebe.  One good idea would be to
+develop an IntelliSense like facility for functions/classes
+
+If you want to help, email me at ray.seyfarth@gmail.com
+
+Universal installer
+===================
+The shell script "install_ebe.sh" will install ebe on a variety of Linux,
+UNIX and UNIX-like systems including Ubuntu, Fedora, Slackware, OS X,
+openSUSE, Mageia, Manjaro and PCBSD.  
+
+OS X
+----
+Follow the instructions in README.OS_X to simplify the installation to
+create a certificate named "gdb-cert".  If you do this first, the
+installation script will do the rest.
+
+Other systems
+-------------
+For the other systems the system's package manager is immediately
+available and the process is simpler.
+
+For Slackware the script must be run as root.  For the others sudo is used
+only when needed, but the process does require root access using sudo.
+
+Installing a different version
+==============================
+To install the latest version use
+
+    sh install_ebe.sh
+
+The script also can be used to update ebe or to select an older version.
+If ebe is already installed, running the script again should quickly skip
+through the installion of libraries and tools and then install ebe in a
+minute or two.
+
+To select an earlier version simply add the version number to the command
+like this
+
+    sh install_ebe.sh 2.6.0
