@@ -169,8 +169,14 @@ install_osx_tools()
 
     log Installing XCode command line tools
 
-    xcode-select --install
-
+    if xcode-select --install 2>&1 | grep already > /dev/null
+    then
+        log Installation continues
+    else
+        log Please respond to the dialog to install xcode command line tools.
+        log "After it completes (a few minutes) run this script again."
+        exit
+    fi
     tool=brew
     brew_installed=false
     if which brew > /dev/null
@@ -180,13 +186,14 @@ install_osx_tools()
     then
         tool=port
     fi
+    echo $tool $brew_installed
     
-    if [ tool = port ]
+    if [ $tool = port ]
     then
         log Installing required tools and libraries with port command
         sudo port install git gdb g95 astyle yasm qt5-mac bison flex
     else
-        if [ brew_installed = false ]
+        if [ $brew_installed = false ]
         then
             log Installing homebrew and running brew doctor
             ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
@@ -199,15 +206,15 @@ install_osx_tools()
             "Sorry, try to install one of these and retry the script."
 
         log Installing required tools and libraries with brew command
-        brew install git gcc homebrew/dupes/gdb qt5 astyle yasm bison flex
+        brew install git gcc homebrew/dupes/gdb qt astyle yasm bison flex
         brew link --overwrite gdb
-        brew link --force qt5
-        ln -s /usr/local/bin/gcc-4.9 /usr/local/bin/gcc
-        ln -s /usr/local/bin/g++-4.9 /usr/local/bin/g++
+        brew link --force qt
+        ln -sf /usr/local/bin/gcc-5 /usr/local/bin/gcc
+        ln -sf /usr/local/bin/g++-5 /usr/local/bin/g++
 
     fi
 
-    if [ tool = port ]
+    if [ $tool = port ]
     then
         log Signing the certificate for ggdb
         sudo codesign -s gdb-cert /opt/local/bin/ggdb
@@ -302,7 +309,8 @@ get_and_build_ebe()
         "git does not seem to be in your PATH.  For help, contact me at" \
         "ray.seyfarth@gmail.com"
 
-    git clone $version git://git.code.sf.net/p/qtebe/code ebe
+    git clone $version https://github.com/seyfarth/ebe.git ebe
+    #git clone $version git://git.code.sf.net/p/qtebe/code ebe
 
     log "Compiling ebe.  This could take a few minutes"
 
